@@ -8,6 +8,8 @@
  *
  * @author kevinkwok
  */
+import java.util.Queue;
+import java.util.LinkedList;
 import java.util.Random;
 public class avl {
 
@@ -27,13 +29,8 @@ public class avl {
     }
     void insert(int data)
     {
-        
-      
-      long startTime = System.nanoTime();
+ 
         root = sub_insert(root,data);
-        long endTime = System.nanoTime();
-        long total_time = (endTime - startTime);
-        System.out.println(total_time);
     }
    
     Node sub_insert(Node root, int key)
@@ -149,6 +146,11 @@ public class avl {
     {
         print_level(root);
     }
+
+    void print_BFS()
+    {
+        BFS(root);
+    }
     void print_level(Node root)
     {
         int h = height_tree(root);
@@ -259,10 +261,24 @@ public class avl {
         root.right = singleRightrotation(root.right);
         return singleLeftrotation(root);
     }
+
+    void BFS(Node root)
+    {
+        Queue<Node> q = new LinkedList<Node>();
+        q.add(root);
+        while(!q.isEmpty())
+        {
+            Node temp = q.poll();
+            System.out.println( temp.value);
+            if (temp.left != null)
+            q.add(temp.left);
+            if (temp.right !=null)
+            q.add(temp.right);
+        }
+    }
     public static void main(String[] args) {
         // Node tree = new Node(10);
         // tree.left
-        long startTime = System.nanoTime();
         Random rand = new Random();
         
         avl tree = new avl();
@@ -271,9 +287,7 @@ public class avl {
            int n = rand.nextInt(50);
            tree.insert(n);
        }
-
-
-      
-     
-    }
+       tree.print();
+       tree.print_BFS();
+    } 
 }
